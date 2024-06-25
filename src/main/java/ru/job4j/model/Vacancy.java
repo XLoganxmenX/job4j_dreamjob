@@ -1,7 +1,6 @@
 package ru.job4j.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Vacancy {
@@ -42,8 +41,8 @@ public class Vacancy {
         this.description = description;
     }
 
-    public String getCreationDate() {
-        return creationDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
     public void setCreationDate(LocalDateTime creationDate) {

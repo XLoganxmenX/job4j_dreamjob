@@ -10,11 +10,16 @@ import ru.job4j.repository.MemoryCandidateRepository;
 @Controller
 @RequestMapping("/candidates")
 public class CandidateController {
-    private final CandidateRepository candidateRepository = new MemoryCandidateRepository();
+    private final CandidateRepository candidateRepository = MemoryCandidateRepository.getInstance();
 
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("candidates", candidateRepository.findAll());
         return "candidates/list";
+    }
+
+    @GetMapping("/create")
+    public String getCreationPage() {
+        return "candidates/create";
     }
 }

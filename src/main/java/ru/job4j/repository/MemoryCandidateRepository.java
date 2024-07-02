@@ -3,6 +3,8 @@ package ru.job4j.repository;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.Candidate;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -15,11 +17,16 @@ public class MemoryCandidateRepository implements CandidateRepository {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     public MemoryCandidateRepository() {
-        save(new Candidate(0, "Petr Ivanov", "Intern Java Developer"));
-        save(new Candidate(0, "Vasiliy Habar", "Junior Java Developer"));
-        save(new Candidate(0, "Elena Samovar", "Junior+ Java Developer"));
-        save(new Candidate(0, "Stanislav Zelen", "Middle Java Developer"));
-        save(new Candidate(0, "Vladimir Pupkin", "Middle+ Java Developer"));
+        save(new Candidate(0, "Petr Ivanov", "Intern Java Developer",
+                LocalDateTime.now(), 1));
+        save(new Candidate(0, "Vasiliy Habar", "Junior Java Developer",
+                LocalDateTime.now(), 1));
+        save(new Candidate(0, "Elena Samovar", "Junior+ Java Developer",
+                LocalDateTime.now(), 2));
+        save(new Candidate(0, "Stanislav Zelen", "Middle Java Developer",
+                LocalDateTime.now(), 3));
+        save(new Candidate(0, "Vladimir Pupkin", "Middle+ Java Developer",
+                LocalDateTime.now(), 3));
     }
 
     @Override
@@ -40,7 +47,9 @@ public class MemoryCandidateRepository implements CandidateRepository {
                 (id, oldCandidate) -> new Candidate(
                         oldCandidate.getId(),
                         candidate.getName(),
-                        candidate.getDescription())
+                        candidate.getDescription(),
+                        candidate.getCreationDate(),
+                        candidate.getCityId())
         ) != null;
     }
 

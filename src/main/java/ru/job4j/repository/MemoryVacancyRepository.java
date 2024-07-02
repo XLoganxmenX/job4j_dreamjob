@@ -4,6 +4,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.Vacancy;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -19,12 +20,18 @@ public class MemoryVacancyRepository implements VacancyRepository {
     private final Map<Integer, Vacancy> vacancies = new ConcurrentHashMap<>();
 
     private MemoryVacancyRepository() {
-        save(new Vacancy(0, "Intern Java Developer", "70 000 rub."));
-        save(new Vacancy(0, "Junior Java Developer", "90 000 rub."));
-        save(new Vacancy(0, "Junior+ Java Developer", "110 000 rub."));
-        save(new Vacancy(0, "Middle Java Developer", "150 000 rub."));
-        save(new Vacancy(0, "Middle+ Java Developer", "200 000 rub."));
-        save(new Vacancy(0, "Senior Java Developer", "250 000 rub."));
+        save(new Vacancy(0, "Intern Java Developer", "70 000 rub.",
+                LocalDateTime.now(), true));
+        save(new Vacancy(0, "Junior Java Developer", "90 000 rub.",
+                LocalDateTime.now(), true));
+        save(new Vacancy(0, "Junior+ Java Developer", "110 000 rub.",
+                LocalDateTime.now(), true));
+        save(new Vacancy(0, "Middle Java Developer", "150 000 rub.",
+                LocalDateTime.now(), true));
+        save(new Vacancy(0, "Middle+ Java Developer", "200 000 rub.",
+                LocalDateTime.now(), true));
+        save(new Vacancy(0, "Senior Java Developer", "250 000 rub.",
+                LocalDateTime.now(), true));
     }
 
     @Override
@@ -45,7 +52,9 @@ public class MemoryVacancyRepository implements VacancyRepository {
                 (id, oldVacancy) -> new Vacancy(
                         oldVacancy.getId(),
                         vacancy.getTitle(),
-                        vacancy.getDescription())
+                        vacancy.getDescription(),
+                        vacancy.getCreationDate(),
+                        vacancy.getVisible())
                 ) != null;
     }
 

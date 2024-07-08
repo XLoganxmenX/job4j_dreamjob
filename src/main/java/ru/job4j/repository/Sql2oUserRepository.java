@@ -20,7 +20,7 @@ public class Sql2oUserRepository implements UserRepository {
 
     @Override
     public Optional<User> save(User user) {
-        User returnUser = null;
+        Optional<User> returnUser = Optional.empty();
         try (var connection = sql2o.open()) {
             String sqlInsert = """
                       INSERT INTO users (email, name, password)
@@ -33,11 +33,11 @@ public class Sql2oUserRepository implements UserRepository {
             var execution = query.executeUpdate();
             int generatedId = execution.getKey(Integer.class);
             user.setId(generatedId);
-            returnUser = user;
+            returnUser = Optional.of(user);
         } catch (Sql2oException e) {
             LOGGER.info("Попытка сохранения существующего пользователя", e);
         }
-        return Optional.ofNullable(returnUser);
+        return returnUser;
     }
 
     @Override
